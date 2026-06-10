@@ -1,15 +1,24 @@
 """
 DAG: run a bash script on a remote server via the Airflow SSH provider.
 
+Remote target (Cloudera cluster host):
+  Host:     ccycloud-1.suplab.root.comops.site
+  SSH port: 22  (7183 is Cloudera Manager web UI, not SSH)
+  Username: root
+
 Prerequisites:
   1. Install dependencies: pip install -r requirements.txt
   2. Copy scripts/remote_hello.sh to the remote host (e.g. /opt/scripts/remote_hello.sh)
-  3. Create an Airflow SSH connection (Admin -> Connections):
-       Conn Id:   ssh_remote_server
-       Conn Type: SSH
-       Host:      <remote-hostname-or-ip>
-       Username:  <ssh-user>
-       Password:  <password>  OR  Extra: {"key_file": "/path/to/private_key", "timeout": "30"}
+  3. Configure the Airflow SSH connection (do not commit passwords to git):
+       Option A — UI (Admin -> Connections):
+         Conn Id:   ssh_remote_server
+         Conn Type: SSH
+         Host:      ccycloud-1.suplab.root.comops.site
+         Port:      22
+         Username:  root
+         Password:  <set in UI>
+       Option B — local script (export SSH_HOST, SSH_PORT, SSH_USER, SSH_PASSWORD first):
+         ./scripts/setup_airflow_ssh_connection.sh
 """
 
 from datetime import datetime, timedelta
