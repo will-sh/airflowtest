@@ -49,7 +49,9 @@ with DAG(
     run_remote_bash_script = SSHOperator(
         task_id="run_bash_script",
         ssh_conn_id=SSH_CONN_ID,
-        command=f"bash {REMOTE_SCRIPT_PATH}",
+        # Use params + Jinja so Airflow does not treat ".sh" as a template file path.
+        command="bash {{ params.script_path }}",
+        params={"script_path": REMOTE_SCRIPT_PATH},
         cmd_timeout=300,
         get_pty=True,
     )
