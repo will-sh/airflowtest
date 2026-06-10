@@ -43,6 +43,7 @@ with DAG(
     schedule=None,
     start_date=datetime(2024, 1, 1),
     catchup=False,
+    is_paused_upon_creation=False,
     tags=["ssh", "remote"],
 ) as dag:
     run_remote_bash_script = SSHOperator(
